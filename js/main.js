@@ -1,6 +1,6 @@
 // main.js - Barbershop Booking System (jQuery Version)
 
-const API_URL = 'http://127.0.0.1:8000/api';
+const API_URL = 'https://barbershop.ccs4thyear.com/api';
 
 // Time slot mapping: start time -> display format
 const TIME_SLOTS = {
@@ -466,7 +466,7 @@ async function loadServices() {
       const durationDisplay = service.duration ? `${service.duration} min` : 'N/A';
       const $card = $('<div>', { class: 'service-card' });
       $card.html(`
-        <img src="${imageUrl}" alt="${service.name}" onerror="this.src='http://127.0.0.1:8000/storage/uploads/default.png'">
+        <img src="${imageUrl}" alt="${service.name}" onerror="this.src='https://barbershop.ccs4thyear.com/storage/uploads/default.png'">
         <div class="service-info">
           <h3>${service.name}</h3>
           <p class="service-description">${service.description || 'Professional service'}</p>
@@ -567,11 +567,11 @@ async function loadBarbers() {
       // Use image_url if provided, otherwise construct from image_path or use default
       const imageUrl = barber.image_url || 
         (barber.image_path ? `${API_URL.replace('/api', '')}/storage/${barber.image_path}` : null) ||
-        'http://127.0.0.1:8000/storage/uploads/profile.png';
+        'http://barbershop.ccs4thyear.com/storage/uploads/profile.png';
       
       const $card = $('<div>', { class: 'barber-card' });
       $card.html(`
-        <img src="${imageUrl}" alt="${barber.name || 'Barber'}" onerror="this.src='http://127.0.0.1:8000/storage/uploads/profile.png'">
+        <img src="${imageUrl}" alt="${barber.name || 'Barber'}" onerror="this.src='http://barbershop.ccs4thyear.com/storage/uploads/profile.png'">
         <div class="barber-info">
           <h3>${barber.name || 'Unknown Barber'}</h3>
           <p class="barber-specialty">${specialty}</p>
