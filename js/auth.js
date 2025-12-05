@@ -13,7 +13,8 @@ async function redirectIfLoggedIn() {
   const token = localStorage.getItem("authToken");
   if (token) {
     try {
-      const res = await fetch("http://barbershop.ccs4thyear.com/api/users/me", {
+      const API_URL = window.API_URL || 'https://barbershop.ccs4thyear.com/api';
+      const res = await fetch(`${API_URL}/users/me`, {
         headers: { "Authorization": `Bearer ${token}` }
       });
       

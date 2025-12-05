@@ -1,6 +1,6 @@
 // forgot.js - Forgot Password Flow (jQuery Version)
 
-const API_URL = 'barbershop.ccs4thyear.com';
+const API_URL = window.API_URL || 'https://barbershop.ccs4thyear.com/api';
 
 // Global variables to store data
 let userEmail = '';
@@ -48,7 +48,7 @@ $(document).ready(function() {
         $sendOtpBtn.prop('disabled', true).text('Sending...');
       }
       
-      const response = await fetch(`${API_URL}/api/auth/forgot-password/send-otp`, {
+      const response = await fetch(`${API_URL}/auth/forgot-password/send-otp`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -124,7 +124,7 @@ $(document).ready(function() {
         $verifyOtpBtn.prop('disabled', true).text('Verifying...');
       }
       
-      const response = await fetch(`${API_URL}/api/auth/forgot-password/verify-otp`, {
+      const response = await fetch(`${API_URL}/auth/forgot-password/verify-otp`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -241,7 +241,7 @@ $(document).ready(function() {
         $resetPasswordBtn.prop('disabled', true).text('Resetting...');
       }
       
-      const response = await fetch(`${API_URL}/api/auth/forgot-password/reset`, {
+      const response = await fetch(`${API_URL}/auth/forgot-password/reset`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

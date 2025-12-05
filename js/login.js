@@ -99,7 +99,8 @@ $(document).ready(function() {
       showLoginLoading();
 
       try {
-        const res = await fetch("http://barbershop.ccs4thyear.com/api/auth/login", {
+        const API_URL = window.API_URL || 'https://barbershop.ccs4thyear.com/api';
+        const res = await fetch(`${API_URL}/auth/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data)

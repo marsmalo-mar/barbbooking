@@ -1,6 +1,8 @@
 // main.js - Barbershop Booking System (jQuery Version)
 
 const API_URL = 'https://barbershop.ccs4thyear.com/api';
+// Export to window for other scripts to use
+window.API_URL = API_URL;
 
 // Time slot mapping: start time -> display format
 const TIME_SLOTS = {
@@ -567,11 +569,11 @@ async function loadBarbers() {
       // Use image_url if provided, otherwise construct from image_path or use default
       const imageUrl = barber.image_url || 
         (barber.image_path ? `${API_URL.replace('/api', '')}/storage/${barber.image_path}` : null) ||
-        'http://barbershop.ccs4thyear.com/storage/uploads/profile.png';
+        'https://barbershop.ccs4thyear.com/storage/uploads/profile.png';
       
       const $card = $('<div>', { class: 'barber-card' });
       $card.html(`
-        <img src="${imageUrl}" alt="${barber.name || 'Barber'}" onerror="this.src='http://barbershop.ccs4thyear.com/storage/uploads/profile.png'">
+        <img src="${imageUrl}" alt="${barber.name || 'Barber'}" onerror="this.src='https://barbershop.ccs4thyear.com/storage/uploads/profile.png'">
         <div class="barber-info">
           <h3>${barber.name || 'Unknown Barber'}</h3>
           <p class="barber-specialty">${specialty}</p>
