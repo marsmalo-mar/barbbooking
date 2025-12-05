@@ -190,7 +190,10 @@
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="js/progress.js"></script>
   <script>
-    const API_URL = window.API_URL || 'https://barbershop.ccs4thyear.com/api';
+    // Ensure we always use HTTPS
+    let API_URL = window.API_URL || 'https://barbershop.ccs4thyear.com/api';
+    // Force HTTPS if somehow http:// got in there
+    API_URL = API_URL.replace(/^http:\/\//, 'https://');
     
     // Get email from URL parameter
     const urlParams = new URLSearchParams(window.location.search);

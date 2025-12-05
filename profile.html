@@ -385,7 +385,10 @@
 
       // Fetch fresh data from API
       try {
-        const API_URL = window.API_URL || 'https://barbershop.ccs4thyear.com/api';
+        // Ensure we always use HTTPS
+        let API_URL = window.API_URL || 'https://barbershop.ccs4thyear.com/api';
+        // Force HTTPS if somehow http:// got in there
+        API_URL = API_URL.replace(/^http:\/\//, 'https://');
         const response = await fetch(`${API_URL}/users/me`, {
           method: 'GET',
           headers: {
@@ -471,7 +474,10 @@
 
         console.log('Updating profile (text only)...');
 
-        const API_URL = window.API_URL || 'https://barbershop.ccs4thyear.com/api';
+        // Ensure we always use HTTPS
+        let API_URL = window.API_URL || 'https://barbershop.ccs4thyear.com/api';
+        // Force HTTPS if somehow http:// got in there
+        API_URL = API_URL.replace(/^http:\/\//, 'https://');
         const response = await fetch(`${API_URL}/users/me`, {
           method: 'POST',
           headers: {
@@ -545,7 +551,10 @@
 
         console.log('Changing password...');
 
-        const API_URL = window.API_URL || 'https://barbershop.ccs4thyear.com/api';
+        // Ensure we always use HTTPS
+        let API_URL = window.API_URL || 'https://barbershop.ccs4thyear.com/api';
+        // Force HTTPS if somehow http:// got in there
+        API_URL = API_URL.replace(/^http:\/\//, 'https://');
         const response = await fetch(`${API_URL}/users/me/password`, {
           method: 'POST',
           headers: {
@@ -606,7 +615,10 @@
         const authToken = localStorage.getItem('authToken');
         console.log('Uploading avatar...');
 
-        const API_URL = window.API_URL || 'https://barbershop.ccs4thyear.com/api';
+        // Ensure we always use HTTPS
+        let API_URL = window.API_URL || 'https://barbershop.ccs4thyear.com/api';
+        // Force HTTPS if somehow http:// got in there
+        API_URL = API_URL.replace(/^http:\/\//, 'https://');
         const response = await fetch(`${API_URL}/users/me/avatar`, {
           method: 'POST',
           headers: {
