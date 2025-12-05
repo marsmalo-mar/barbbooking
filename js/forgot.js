@@ -1,6 +1,6 @@
 // forgot.js - Forgot Password Flow (jQuery Version)
 
-const API_URL = 'http://127.0.0.1:8000';
+const API_URL = 'barbershop.ccs4thyear.com';
 
 // Global variables to store data
 let userEmail = '';
