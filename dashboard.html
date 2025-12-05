@@ -102,7 +102,7 @@
     async function checkUserType() {
       try {
         const token = localStorage.getItem('authToken');
-        const res = await fetch('http://127.0.0.1:8000/api/users/me', {
+        const res = await fetch('http://barbershop.ccs4thyear.com/api/users/me', {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         if (res.ok) {
