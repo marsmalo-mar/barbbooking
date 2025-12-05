@@ -1,8 +1,9 @@
 // main.js - Barbershop Booking System (jQuery Version)
 
+// Always use HTTPS for API URL
 const API_URL = 'https://barbershop.ccs4thyear.com/api';
-// Export to window for other scripts to use
-window.API_URL = API_URL;
+// Export to window for other scripts to use (ensure HTTPS)
+window.API_URL = API_URL.replace(/^http:\/\//, 'https://');
 
 // Time slot mapping: start time -> display format
 const TIME_SLOTS = {

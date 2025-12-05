@@ -1,6 +1,9 @@
 // forgot.js - Forgot Password Flow (jQuery Version)
 
-const API_URL = window.API_URL || 'https://barbershop.ccs4thyear.com/api';
+// Ensure we always use HTTPS
+let API_URL = window.API_URL || 'https://barbershop.ccs4thyear.com/api';
+// Force HTTPS if somehow http:// got in there
+API_URL = API_URL.replace(/^http:\/\//, 'https://');
 
 // Global variables to store data
 let userEmail = '';
