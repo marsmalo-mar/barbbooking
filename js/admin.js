@@ -533,13 +533,13 @@ async function loadAdminUsers() {
     }
 
     $.each(users, function(i, user) {
-      const avatarUrl = user.avatar ? `${API_URL.replace('/api', '')}/${user.avatar}` : 'http://127.0.0.1:8000/storage/uploads/profile.png';
+      const avatarUrl = user.avatar ? `${API_URL.replace('/api', '')}/${user.avatar}` : 'http://barbershop.ccs4thyear.com/storage/uploads/profile.png';
       const isSuperAdmin = user.id === 1;
       const $card = $('<div>', { class: 'user-card' });
       $card.html(`
         <div class="user-card-header">
           <div class="user-avatar-wrapper">
-            <img src="${avatarUrl}" alt="${user.name}" class="user-card-avatar" onerror="this.src='http://127.0.0.1:8000/storage/uploads/profile.png'">
+            <img src="${avatarUrl}" alt="${user.name}" class="user-card-avatar" onerror="this.src='http://barbershop.ccs4thyear.com/storage/uploads/profile.png'">
           </div>
           <span class="badge status-${user.user_type}">${user.user_type}${isSuperAdmin ? ' ★' : ''}</span>
         </div>
@@ -751,7 +751,7 @@ async function loadAdminProfile() {
     $('#profileUsername').val(user.username);
     $('#profileEmail').val(user.email);
     
-    const avatarUrl = user.avatar ? `${API_URL.replace('/api', '')}/${user.avatar}` : 'http://127.0.0.1:8000/storage/uploads/default.png';
+    const avatarUrl = user.avatar ? `${API_URL.replace('/api', '')}/${user.avatar}` : 'http://barbershop.ccs4thyear.com/storage/uploads/default.png';
     $('#avatarPreview').attr('src', avatarUrl);
   } catch (err) {
     console.error('Error loading profile:', err);
