@@ -300,7 +300,7 @@ async function loadAdminServices() {
         </div>
         <div class="service-admin-card-body">
           <div class="service-admin-image-container">
-            <img src="${imageUrl}" alt="${service.name}" class="service-admin-image" onerror="this.src='http://127.0.0.1:8000/storage/uploads/default.png'">
+            <img src="${imageUrl}" alt="${service.name}" class="service-admin-image" onerror="this.src='http://barbershop.ccs4thyear.com/storage/uploads/default.png'">
           </div>
           <div class="service-admin-info">
             <div class="service-admin-info-item">
