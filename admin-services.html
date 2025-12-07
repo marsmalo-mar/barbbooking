@@ -73,6 +73,8 @@
         <div class="form-group">
           <label>Image</label>
           <input type="file" id="serviceImage" accept="image/*">
+          <img id="serviceImagePreview" style="display: none; max-width: 200px; max-height: 200px; margin-top: 10px; border-radius: 8px; object-fit: cover;" alt="Service image preview">
+          <small style="color: #999; font-size: 0.9em; display: block; margin-top: 5px;">Accepted formats: JPG, PNG, GIF, WEBP (max 3MB)</small>
         </div>
         <button type="submit" class="btn-primary">Save Service</button>
         <button type="button" class="btn-secondary" onclick="closeServiceModal()">Cancel</button>
@@ -105,6 +107,22 @@
 
       $('#searchInput').on('input', loadAdminServices);
       $('#serviceForm').on('submit', handleServiceSubmit);
+      
+      // Preview image when file is selected
+      $('#serviceImage').on('change', function(e) {
+        const file = e.target.files[0];
+        const $preview = $('#serviceImagePreview');
+        
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            $preview.attr('src', e.target.result).show();
+          };
+          reader.readAsDataURL(file);
+        } else {
+          $preview.hide();
+        }
+      });
     });
   </script>
 </body>
