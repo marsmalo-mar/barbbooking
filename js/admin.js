@@ -356,6 +356,8 @@ function openServiceModal(serviceId = null) {
 function closeServiceModal() {
   $('#serviceModal').hide();
   $('#serviceForm')[0].reset();
+  $('#serviceImagePreview').hide();
+  $('#serviceImage').val('');
 }
 
 async function loadServiceData(id) {
@@ -373,6 +375,22 @@ async function loadServiceData(id) {
       $('#serviceDescription').val(service.description || '');
       $('#servicePrice').val(service.price);
       $('#serviceDuration').val(service.duration || '');
+      
+      // Show current image preview if available
+      const imageUrl = service.image_path ? `${API_URL.replace('/api', '')}/${service.image_path}` : null;
+      const $imagePreview = $('#serviceImagePreview');
+      const $imageInput = $('#serviceImage');
+      
+      if (imageUrl && $imagePreview.length) {
+        $imagePreview.attr('src', imageUrl).show();
+      } else if ($imagePreview.length) {
+        $imagePreview.hide();
+      }
+      
+      // Clear file input (user needs to select new file if they want to change image)
+      if ($imageInput.length) {
+        $imageInput.val('');
+      }
     }
   } catch (err) {
     console.error('Error loading service:', err);
@@ -401,31 +419,97 @@ async function handleServiceSubmit(e) {
   formData.append('price', $('#servicePrice').val());
   formData.append('duration', $('#serviceDuration').val());
 
-  const imageFile = $('#serviceImage')[0].files[0];
+  // Handle image file upload
+  const $imageInput = $('#serviceImage');
+  const imageFile = $imageInput[0].files[0];
+  
   if (imageFile) {
+    // Validate file size (max 3MB)
+    if (imageFile.size > 3 * 1024 * 1024) {
+      if (typeof showToast === 'function') {
+        showToast('Image file size must be less than 3MB', 'error');
+      }
+      if (typeof resetButtonLoading === 'function' && buttonState) {
+        resetButtonLoading($submitBtn, buttonState);
+      }
+      return;
+    }
+    
+    // Validate file type
+    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+    if (!validTypes.includes(imageFile.type)) {
+      if (typeof showToast === 'function') {
+        showToast('Invalid image format. Please use JPG, PNG, GIF, or WEBP', 'error');
+      }
+      if (typeof resetButtonLoading === 'function' && buttonState) {
+        resetButtonLoading($submitBtn, buttonState);
+      }
+      return;
+    }
+    
     formData.append('image', imageFile);
+    console.log('Image file added to form:', imageFile.name, imageFile.size, 'bytes');
+  } else {
+    console.log('No image file selected');
+  }
+
+  // For PUT requests with FormData, use POST with _method field (Laravel method spoofing)
+  if (id) {
+    formData.append('_method', 'PUT');
   }
 
   try {
     const token = localStorage.getItem('authToken');
-    // Route accepts both POST and PUT, so we can use POST directly for updates
-    // This works better with file uploads than method spoofing
     const url = id ? `${API_URL}/admin/services/${id}` : `${API_URL}/admin/services`;
-    const method = id ? 'POST' : 'POST'; // Both use POST since route accepts POST
+
+    console.log('Submitting service form:', {
+      id: id || 'new',
+      hasImage: !!imageFile,
+      url: url
+    });
 
     const res = await fetch(url, {
-      method: method,
-      headers: { 'Authorization': `Bearer ${token}` },
+      method: 'POST',
+      headers: { 
+        'Authorization': `Bearer ${token}`
+        // DO NOT set Content-Type header - browser will set it automatically with boundary for FormData
+      },
       body: formData
     });
 
+    const responseText = await res.text();
+    console.log('Response status:', res.status);
+    console.log('Response text:', responseText);
+
     if (!res.ok) {
-      const error = await res.json();
+      let error;
+      try {
+        error = JSON.parse(responseText);
+      } catch (e) {
+        error = { error: responseText || 'Failed to save service' };
+      }
+      
+      console.error('Error response:', error);
+      
+      // Show detailed error message
+      let errorMessage = error.error || error.message || 'Failed to save service';
+      if (error.errors) {
+        const errorDetails = Object.values(error.errors).flat().join(', ');
+        if (errorDetails) {
+          errorMessage += ': ' + errorDetails;
+        }
+      }
+      
       if (typeof showToast === 'function') {
-        showToast(error.error || error.message || 'Failed to save service', 'error');
+        showToast(errorMessage, 'error');
+      } else {
+        alert(errorMessage);
       }
       return;
     }
+
+    const result = JSON.parse(responseText);
+    console.log('Success response:', result);
 
     if (typeof showToast === 'function') {
       showToast(id ? 'Service updated!' : 'Service created!', 'success');
@@ -436,6 +520,8 @@ async function handleServiceSubmit(e) {
     console.error('Error saving service:', err);
     if (typeof showToast === 'function') {
       showToast('Network error. Please try again.', 'error');
+    } else {
+      alert('Network error. Please try again.');
     }
   } finally {
     if (typeof resetButtonLoading === 'function' && buttonState) {
