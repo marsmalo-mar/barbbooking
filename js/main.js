@@ -867,8 +867,9 @@ async function handleBookingSubmit(e) {
   }
 }
 
-// Handle Delete/Cancel buttons
-$(document).on('click', '.delete-btn', function() {
+// Handle Delete/Cancel buttons (only for booking cards)
+$(document).on('click', '.booking-card .delete-btn', function(e) {
+  e.stopPropagation(); // Prevent event from bubbling to other handlers
   const id = $(this).data('id');
   if (confirm('Are you sure you want to cancel this booking?')) {
     cancelBooking(id);
