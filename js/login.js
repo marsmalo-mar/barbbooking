@@ -100,7 +100,7 @@ $(document).ready(function() {
 
       try {
         // Ensure we always use HTTPS
-        let API_URL = window.API_URL || 'https://barbershop.ccs4thyear.com/api';
+        let API_URL = window.API_URL || 'https://barbershop.ccs4thyear.com/backend/api';
         // Force HTTPS if somehow http:// got in there
         API_URL = API_URL.replace(/^http:\/\//, 'https://');
         const res = await fetch(`${API_URL}/auth/login`, {
