@@ -406,17 +406,15 @@ async function handleServiceSubmit(e) {
     formData.append('image', imageFile);
   }
 
-  // For PUT requests with FormData, use POST with _method field (Laravel method spoofing)
-  if (id) {
-    formData.append('_method', 'PUT');
-  }
-
   try {
     const token = localStorage.getItem('authToken');
+    // Route accepts both POST and PUT, so we can use POST directly for updates
+    // This works better with file uploads than method spoofing
     const url = id ? `${API_URL}/admin/services/${id}` : `${API_URL}/admin/services`;
+    const method = id ? 'POST' : 'POST'; // Both use POST since route accepts POST
 
     const res = await fetch(url, {
-      method: 'POST',
+      method: method,
       headers: { 'Authorization': `Bearer ${token}` },
       body: formData
     });
