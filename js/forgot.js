@@ -28,6 +28,19 @@ $(document).ready(function() {
   const $otpMsg = $('#otpMsg');
   const $resetMsg = $('#resetMsg');
 
+  // On mobile, force numeric keypad for OTP entry for better UX
+  const setOtpMobileKeypad = () => {
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (!isMobile) return;
+    $otpInput.attr({
+      inputmode: 'numeric',
+      pattern: '[0-9]*',
+      type: 'tel',
+      autocomplete: 'one-time-code'
+    });
+  };
+  setOtpMobileKeypad();
+
   // Step 1: Send OTP
   $sendOtpBtn.on('click', async function() {
     const email = $forgotEmailInput.val().trim();
