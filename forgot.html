@@ -251,7 +251,15 @@
 
       <!-- Step 2: Verify OTP -->
       <div id="step-otp" class="navy-step-container" style="display:none;">
-        <input type="text" id="otpInput" placeholder="Enter OTP" maxlength="6" required>
+        <input
+          type="tel"
+          id="otpInput"
+          placeholder="Enter OTP"
+          maxlength="6"
+          inputmode="numeric"
+          pattern="[0-9]*"
+          autocomplete="one-time-code"
+          required>
         <button id="verifyOtpBtn" class="navy-btn">Verify OTP</button>
         <p id="otpMsg" class="error-message"></p>
       </div>
